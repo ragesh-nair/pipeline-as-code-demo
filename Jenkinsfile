@@ -20,7 +20,6 @@ stage (name: 'Staging')  {
 node ('swarm') {
     deploy 'staging'
 }
-}
 
 input message: "Does staging look good?"
 try {
