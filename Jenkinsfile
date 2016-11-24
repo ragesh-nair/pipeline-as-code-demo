@@ -21,20 +21,6 @@ node ('swarm') {
     deploy 'staging'
 }
 
-input message: "Does staging look good?"
-try {
-    checkpoint('Before production')
-} catch (NoSuchMethodError _) {
-    echo 'Checkpoint feature available in CloudBees Jenkins Enterprise.'
-}
-}
-
-stage (name: 'Production', concurrency: 1) {
-node ('swarm'){
-    echo 'Production server looks to be alive'
-    deploy 'production'
-    echo "Deployed to production"
-}
 }
 
 def mvn(args) {
