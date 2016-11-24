@@ -1,7 +1,7 @@
 #!groovy
 
 stage 'Dev'
-node ('docker-cloud') {
+node ('swarm') {
     checkout scm
     mvn 'clean package'
     dir('target') {stash name: 'war', includes: 'x.war'}
@@ -27,14 +27,14 @@ try {
 }
 
 stage name: 'Production', concurrency: 1
-node ('docker-cloud'){
+node ('swarm'){
     echo 'Production server looks to be alive'
     deploy 'production'
     echo "Deployed to production"
 }
 
 def mvn(args) {
-    sh "${tool 'Maven 3.x'}/bin/mvn ${args}"
+    sh "${tool 'mvn'}/bin/mvn ${args}"
 }
 
 def runTests(duration) {
