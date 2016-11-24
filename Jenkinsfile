@@ -16,9 +16,10 @@ parallel(longerTests: {
 })
 }
 
-stage (name: 'Staging', concurrency: 1) {
+stage (name: 'Staging')  {
 node ('swarm') {
     deploy 'staging'
+}
 }
 
 input message: "Does staging look good?"
@@ -29,7 +30,7 @@ try {
 }
 }
 
-stage name: 'Production', concurrency: 1 {
+stage name: 'Production', concurrency: 1 
 node ('swarm'){
     echo 'Production server looks to be alive'
     deploy 'production'
