@@ -29,12 +29,11 @@ try {
 }
 }
 
-stage (name: 'Production', concurrency: 1) {
+stage name: 'Production', concurrency: 1 {
 node ('swarm'){
     echo 'Production server looks to be alive'
     deploy 'production'
     echo "Deployed to production"
-}
 }
 
 def mvn(args) {
