@@ -1,20 +1,22 @@
 #!groovy
 
-stage 'Dev'
+stage ('Dev') {
 node ('swarm') {
     checkout scm
     mvn 'clean package'
     dir('target') {stash name: 'war', includes: 'x.war'}
 }
+}
 
-stage 'QA'
+stage ('QA') {
 parallel(longerTests: {
     runTests(30)
 }, quickerTests: {
     runTests(20)
 })
+}
 
-stage name: 'Staging', concurrency: 1
+stage (name: 'Staging', concurrency: 1) {
 node ('swarm') {
     deploy 'staging'
 }
@@ -25,12 +27,14 @@ try {
 } catch (NoSuchMethodError _) {
     echo 'Checkpoint feature available in CloudBees Jenkins Enterprise.'
 }
+}
 
-stage name: 'Production', concurrency: 1
+stage (name: 'Production', concurrency: 1) {
 node ('swarm'){
     echo 'Production server looks to be alive'
     deploy 'production'
     echo "Deployed to production"
+}
 }
 
 def mvn(args) {
