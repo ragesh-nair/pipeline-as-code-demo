@@ -19,6 +19,12 @@ parallel(longerTests: {
 stage (name: 'Staging', concurrency: 1) {
 node ('swarm') {
     deploy 'staging'
+try {
+    checkpoint('Before production')
+} catch (NoSuchMethodError _) {
+    echo 'Checkpoint feature available in CloudBees Jenkins Enterprise.'
+}
+}
 }
 
 }
